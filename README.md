@@ -20,9 +20,9 @@ Github Gists have a limit of ~1MB per Gist file. I've tested on a library of `27
 
 1. Download or clone this repository to your Playnite extensions directory, e.g., `$PLAYNITE_DIR/Extensions/PlayniteGistLib/`.
 
-2. Create a Github account if you don't already have one.
+2. [Create a Github account](https://github.com/signup) if you don't already have one.
 
-3. Create a Github Access Token [here] with the `gist` scope checked. Copy your token and add it to `$PLAYNITE_DIR/Extensions/PlayniteGistLib/gist_config.json` so that your JSON looks like this:
+3. Create a Github Access Token [here](https://github.com/settings/tokens/new) with the `gist` scope checked. Copy your token and add it to `$PLAYNITE_DIR/Extensions/PlayniteGistLib/gist_config.json` so that your JSON looks like this:
 
 ```json
 {
