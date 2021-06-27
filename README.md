@@ -30,6 +30,6 @@ Github Gists have a limit of ~1MB per Gist file. I've tested on a library of `27
 }
 ```
 
-4. Start/Restart Playnite, and select `Update Game Library > Update All` (or just hit F5). Playnite will update your library, and create a Gist with your library data. Check `https://gist.github.com/<YOUR_GITHUB_USERNAME>` to see your newly created Gist.
+4. Start/Restart Playnite, and select `Update Game Library > Update All` (or just hit F5). You can also manually sync to Gists by selecting `Extensions > Sync Library with Gist`. Playnite will create or update a Gist with your library data. Check `https://gist.github.com/<YOUR_GITHUB_USERNAME>` to see your newly created or updated Gist. If you did not already have an existing Gist, your `gist_config.json` will be updated with a new `gist_id`.
 
 If for whatever reason you've run into an error, check the Playnite logs at `$PLAYNITE_DIR/playnite.log` to see what went wrong. Use a tool like [jsonlint.org](https://jsonlint.com/) to make sure your `gist_config.json` is valid JSON.
