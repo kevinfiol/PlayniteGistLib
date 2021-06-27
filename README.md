@@ -4,7 +4,7 @@ A PowerShell script for [Playnite](https://github.com/JosefNemec/Playnite/) that
 
 ## Why?
 
-Playnite is the best digital game launcher I've used. It seamlessly consolidates your entire game library for you using very reliable storefront plugins for Steam, Epic Games Store, itch.io, GOG, etc. However, it doesn't have the quickest start-up time, and often I find myself wanting to search through my library without having to launch Playnite -- or, sometimes I'm away from my gaming PC. Github Gists are ubiquitous, flexible, and easy to use for storing bits of code or data. With my Playnite library exported to a Gist as JSON, I'm able to use that data to create a searchable library page.
+Playnite is the best digital game launcher I've used. It seamlessly consolidates your entire game library for you using very reliable storefront plugins for Steam, Epic Games Store, itch.io, GOG, etc. However, it doesn't have the quickest start-up time, and I often find myself wanting to search through my library without having to launch Playnite -- or, sometimes I'm away from my gaming PC. Github Gists are ubiquitous, flexible, and easy to use for storing bits of code or data. With my Playnite library exported to a Gist as JSON, I'm able to use that data to create a searchable library page.
 
 ## Examples
 
