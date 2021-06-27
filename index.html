@@ -1,1 +1,207 @@
-<p>hello world</p>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="plumber killer">
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/basscss.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <style>
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 3px;
+            font-family: monospace;
+            border-color: #959595;
+        }
+        button {
+            font-family: monospace;
+            padding: 0.5rem 0.8rem;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 3px;
+            background-color: #fdfdfd;
+            border-color: #959595;
+            color: #313131;
+        }
+        button:hover {
+            background-color: #e3e3e3;
+        }
+        button:active,
+        button:focus {
+            background-color: #d2d2d2;
+        }
+        .input-group {
+            display: flex;
+        }
+        .input-group input {
+            border-radius: 3px 0 0 3px;
+        }
+        .input-group button {
+            border-radius: 0 3px 3px 0;
+            border-left-width: 0;
+        }
+        .game {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem;
+        }
+        .game:nth-child(2n+1) {
+            background-color: #e8e8e8;
+        }
+        .gamelib {
+            padding: 1rem 0;
+        }
+    </style>
+
+    <title>
+        Playnite Game Library
+    </title>
+</head>
+    <body>
+        <main class="max-width-3 mx-auto">
+            <h1>Playnite Game Library</h1>
+            <article class="page-content">
+                <p>This page contains my digital video game collection across multiple storefronts. The data is collected using a plugin for the <a href="https://playnite.link">Playnite</a> game launcher, which is then uploaded to a Github Gist.</p>
+
+                <div class="line"></div>
+
+                <form class="gamesearch-form">
+                    <div class="input-group">
+                        <input type="text" name="filter" aria-label="Search Library" placeholder="Search by Name or Store..." class="gamesearch-input">
+                        <button class="gamesearch-submit">Search</button>
+                    </div>
+                </form>
+
+                <section class="gamelib">
+                </section>
+            </article>
+
+            <div class="line"></div>
+
+            <footer class="mt2">
+                <small>
+                    <a href="#">return to top</a>
+                </small>
+            </footer>
+        </main>
+        <script type="text/javascript" src="https://unpkg.com/lunr@2.3.9/lunr.min.js"></script>
+        <script>
+            (async function(lunr) {
+                const GIST_ID = '69e5d057ff7e755bb32ba9e834a058e7';
+
+                const $gameLib = document.querySelector('.gamelib');
+                const $gameSearchInput = document.querySelector('.gamesearch-input');
+                const $gameSearchForm = document.querySelector('.gamesearch-form');
+
+                let res = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+                let json = await res.json();
+                
+                let library;
+                let isError = false;
+
+                try {
+                    library = JSON.parse(json.files['library.json'].content);
+                } catch {
+                    isError = true;
+                    console.error('Could not parse JSON.');
+                } finally {
+                    res = undefined;
+                    json = undefined;
+                    if (isError) return;
+                }
+
+                let allGamesHtml = '';
+                const slugMap = {};
+
+                const idx = lunr(function() {
+                    this.ref('slug');
+                    this.field('name');
+                    this.field('store');
+
+                    // let's not waste this loop;
+                    // use it for both the lunr index build and initial HTML build
+                    let gamesHtml = '';
+                    for (let i = 0, len = library.games.length; i < len; i++) {
+                        const slug = slugify(library.games[i].name + library.games[i].store);
+                        this.add({
+                            slug: slug,
+                            name: library.games[i].name,
+                            store: library.games[i].store
+                        });
+
+                        slugMap[slug] = library.games[i];
+                        gamesHtml += GameHtml(library.games[i]);
+                    }
+
+                    allGamesHtml = gamesHtml;
+                    $gameLib.innerHTML = allGamesHtml;
+                });
+
+                $gameSearchForm.addEventListener('submit', (ev) => {
+                    ev.preventDefault();
+                    const value = $gameSearchInput.value.trim();
+                    if (value) {
+                        const results = idx.search(value + '~1');
+                        const games = [];
+                        for (let i = 0, len = results.length; i < len; i++) {
+                            games.push(slugMap[results[i].ref]);
+                        }
+
+                        const html = buildGamesHtml(games);
+                        $gameLib.innerHTML = html.trim() ? html : '<article class="game"><em>No games found</em></article>';
+                    } else {
+                        $gameLib.innerHTML = allGamesHtml;
+                    }
+                });
+
+                function buildGamesHtml(games) {
+                    let gamesHtml = '';
+                    for (let i = 0, len = games.length; i < len; i++) {
+                        gamesHtml += GameHtml(games[i]);
+                    }
+
+                    return gamesHtml;
+                }
+
+                function GameHtml(game) {
+                    let header = '';
+                    if (game.url) {
+                        header = `<header><a href="${game.url}">${game.name}</a></header>`;
+                    } else {
+                        header = `<header>${game.name}</header>`   
+                    }
+
+                    return `<article class="game">` +
+                        header +
+                        `<aside>${game.store}</aside>` +
+                    `</article>`;
+                }
+
+                function slugify(text) {
+                    let lines = text.split('\n');
+
+                    for (let i = 0; i < lines.length; i++) {
+                        const slug = lines[i].toString().toLowerCase()
+                            .replace(/\s+/g, '-') // Replace spaces with -
+                            .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+                            .replace(/\-\-+/g, '-') // Replace multiple - with single -
+                            .replace(/^-+/, '') // Trim - from start of text
+                            .replace(/-+$/, '') // Trim - from end of text
+                        ;
+
+                        if (slug.length > 0)
+                            return slug;
+                    }
+
+                    return '';
+                }
+            })(window.lunr);
+        </script>
+    </body>
+</html>
