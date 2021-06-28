@@ -18,7 +18,7 @@ Github Gists have a limit of ~1MB per Gist file. I've tested on a library of `27
 
 ## Usage
 
-1. Download or clone this repository to your Playnite extensions directory, e.g., `$PLAYNITE_DIR/Extensions/PlayniteGistLib/`.
+1. Download or clone this repository to your Playnite extensions directory, `$PLAYNITE_DIR/Extensions/`.
 
 2. [Create a Github account](https://github.com/signup) if you don't already have one.
 
@@ -30,6 +30,6 @@ Github Gists have a limit of ~1MB per Gist file. I've tested on a library of `27
 }
 ```
 
-4. Start/Restart Playnite, and select `Update Game Library > Update All` (or just hit F5). You can also manually sync to Gists by selecting `Extensions > Sync Library with Gist`. Playnite will create or update a Gist with your library data. Check `https://gist.github.com/<YOUR_GITHUB_USERNAME>` to see your newly created or updated Gist. If you did not already have an existing Gist, your `gist_config.json` will be updated with a new `gist_id`.
+4. Start/Restart Playnite, and select `Update Game Library > Update All` (or just hit F5). You can also manually sync by selecting `Extensions > Sync Library with Gist`. Playnite will create or update a Gist with your library data. Go to `https://gist.github.com/<YOUR_GITHUB_USERNAME>` to see your newly created or updated Gist. If you did not already have an existing Gist, your `gist_config.json` will also be updated with a new `gist_id`.
 
 If for whatever reason you've run into an error, check the Playnite logs at `$PLAYNITE_DIR/playnite.log` to see what went wrong. Use a tool like [jsonlint.org](https://jsonlint.com/) to make sure your `gist_config.json` is valid JSON.
