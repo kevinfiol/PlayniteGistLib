@@ -122,7 +122,12 @@
                     </div>
                 </form>
 
+                <section class="gamelib-count">
+                    0 games
+                </section>
+                
                 <section class="gamelib">
+                    <p style="text-align:center;font-family:monospace;">Loading Library...</p>
                 </section>
             </article>
 
@@ -142,6 +147,7 @@
                 const $gameLib = document.querySelector('.gamelib');
                 const $gameSearchInput = document.querySelector('.gamesearch-input');
                 const $gameSearchForm = document.querySelector('.gamesearch-form');
+                const $gameLibCount = document.querySelector('.gamelib-count');
 
                 let res = await fetch(`https://api.github.com/gists/${GIST_ID}`);
                 let json = await res.json();
@@ -161,6 +167,8 @@
                 }
 
                 let allGamesHtml = '';
+                let isViewingAllGames = true;
+                const allGamesCount = library.count;
                 const slugMap = {};
 
                 const idx = lunr(function() {
@@ -199,8 +207,12 @@
 
                         const html = buildGamesHtml(games);
                         $gameLib.innerHTML = html.trim() ? html : '<article class="game"><em>No games found</em></article>';
+                        $gameLibCount.innerText = `${games.length} games`;
+                        isViewingAllGames = false;
                     } else {
                         $gameLib.innerHTML = allGamesHtml;
+                        $gameLibCount.innerText = `${allGamesCount} games`;
+                        isViewingAllGames = true;
                     }
                 });
 
