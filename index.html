@@ -99,6 +99,11 @@
         .gamelib {
             padding: 1rem 0;
         }
+        .gamelib-count {
+            padding-top: 1rem;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 
     <title>
@@ -170,6 +175,8 @@
                 let isViewingAllGames = true;
                 const allGamesCount = library.count;
                 const slugMap = {};
+                
+                $gameLibCount.innerText = `${allGamesCount} games`;
 
                 const idx = lunr(function() {
                     this.ref('slug');
