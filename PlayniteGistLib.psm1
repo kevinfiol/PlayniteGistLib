@@ -1,31 +1,31 @@
-function global:OnApplicationStarted()
+function OnApplicationStarted()
 {
 }
 
-function global:OnApplicationStopped()
+function OnApplicationStopped()
 {
 }
 
-function global:OnLibraryUpdated()
+function OnLibraryUpdated()
 {
     SyncLibrary
 }
 
-function global:OnGameStarting()
+function OnGameStarting()
 {
     param(
         $game
     )
 }
 
-function global:OnGameStarted()
+function OnGameStarted()
 {
     param(
         $game
     )
 }
 
-function global:OnGameStopped()
+function OnGameStopped()
 {
     param(
         $game,
@@ -33,29 +33,30 @@ function global:OnGameStopped()
     )
 }
 
-function global:OnGameInstalled()
+function OnGameInstalled()
 {
     param(
         $game
-    )     
+    )
 }
 
-function global:OnGameUninstalled()
+function OnGameUninstalled()
 {
     param(
         $game
-    )    
+    )
 }
 
-function global:OnGameSelected()
+function OnGameSelected()
 {
     param(
-        $selection
-    )    
+        $gameSelectionEventArgs
+    )
 }
 
-function global:SyncLibrary()
+function SyncLibrary()
 {
+    param($getMainMenuItemsArgs)
     $configPath = Join-Path -Path $CurrentExtensionInstallPath -ChildPath "gist_config.json"
     $isConfigPathValid = Test-Path -Path $configPath
 
@@ -348,9 +349,9 @@ function global:SyncLibrary()
     }
 }
 
-function global:GetMainMenuItems()
+function GetMainMenuItems()
 {
-    param($menuArgs)
+    param($getMainMenuItemsArgs)
     $menuItem = New-Object Playnite.SDK.Plugins.ScriptMainMenuItem
     $menuItem.Description = "Sync Library with Gist"
     $menuItem.FunctionName = "SyncLibrary"
