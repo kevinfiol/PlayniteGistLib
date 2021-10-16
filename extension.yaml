@@ -2,5 +2,5 @@ Id: _name__00000000-0000-0000-0000-000000000001
 Name: PlayniteGistLib
 Author: kevinfiol
 Version: 1.0
-Module: PlayniteGistLib.ps1
+Module: PlayniteGistLib.psm1
 Type: Script
