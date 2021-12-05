@@ -12,6 +12,8 @@ Playnite is the best digital game launcher I've used. It seamlessly consolidates
 
 [Example Library Page](https://kevinfiol.com/PlayniteGistLib/) ([Source](https://github.com/kevinfiol/PlayniteGistLib/blob/master/index.html))
 
+Use in conjunction with the [owned](https://github.com/kevinfiol/owned) userscript for extra goodness.
+
 ## Caveats
 
 Github Gists have a limit of ~1MB per Gist file. I've tested on a library of `2703` games and found that the file size was under 250KB. If your digital game library is much more massive than this, syncing with Github Gists may not be the best option.
